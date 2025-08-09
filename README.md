@@ -1,0 +1,79 @@
+# yazi-quickstart
+
+一个极简的一键脚本，用于在 Linux x86_64 环境下载并安装 Yazi（v25.5.31）二进制包，解压后将 `yazi` 与 `ya` 通过符号链接暴露到 `/usr/local/bin`。
+
+> 提示：本脚本面向 Linux。若在 Windows，请使用 WSL（如 Ubuntu）进入该仓库后再执行。
+
+## 功能
+- 从 GitHub Releases 下载 `yazi-x86_64-unknown-linux-gnu.zip`
+- 使用 `unzip` 解压到当前目录
+- 为 `yazi` 与 `ya` 赋予可执行权限
+- 在 `/usr/local/bin` 下创建符号链接（需要 `sudo` 或写入权限）
+- 可选删除已下载的压缩包
+
+## 适用平台
+- Linux x86_64（glibc）
+- macOS 与原生 Windows 不适用；Windows 请使用 WSL 执行
+
+## 前置依赖
+- bash
+- curl
+- unzip
+- 对 `/usr/local/bin` 的写权限（通常需要 `sudo`）
+
+## 使用
+在 Linux 或 WSL 终端中：
+
+```bash
+# 赋予脚本可执行权限
+chmod +x ./setup-yazi.sh
+
+# 以 root 权限安装到 /usr/local/bin（推荐）
+sudo bash ./setup-yazi.sh
+```
+
+安装完成后可验证：
+
+```bash
+yazi -V
+ya -V
+```
+
+若命令能输出版本号，即已安装成功。
+
+## 安装位置与目录结构
+- 解压目录：`./yazi-x86_64-unknown-linux-gnu/`
+  - 可执行文件：`yazi`、`ya`
+- 系统级链接：`/usr/local/bin/yazi`、`/usr/local/bin/ya`
+
+## 常见问题
+- 提示未安装 unzip：请先安装
+  - Ubuntu/Debian: `sudo apt install unzip`
+  - CentOS/RHEL: `sudo yum install unzip`
+- 没有权限写入 `/usr/local/bin`：在执行脚本时使用 `sudo`。
+- `ln: failed to create symbolic link ... File exists`：说明已存在同名链接或文件，可按需先删除
+  ```bash
+  sudo rm -f /usr/local/bin/yazi /usr/local/bin/ya
+  ```
+- Windows 环境：请在 WSL（Ubuntu 等）内进入仓库路径再执行脚本。
+
+
+## 升级/更换版本
+当前脚本固定下载 `v25.5.31`。如需更换版本，可编辑 `setup-yazi.sh` 中的 `URL`，改为目标版本的 Release 下载链接，然后重新执行脚本。
+
+如遇已存在的符号链接，请先移除再安装：
+
+```bash
+sudo rm -f /usr/local/bin/yazi /usr/local/bin/ya
+sudo bash ./setup-yazi.sh
+```
+
+## 卸载
+```bash
+sudo rm -f /usr/local/bin/yazi /usr/local/bin/ya
+rm -rf ./yazi-x86_64-unknown-linux-gnu
+```
+
+
+## 致谢
+- [Yazi 文件管理器](https://github.com/sxyazi/yazi)
