@@ -20,6 +20,7 @@ add_func() {
 		if ! grep -q "function yy()" "$rcfile"; then
 			echo -e "\n$YY_FUNC\n" >> "$rcfile"
 			echo "已添加 yy 函数到 $rcfile"
+			echo "请重新启动终端或运行 'source $rcfile' 以使更改生效。"
 		else
 			echo "$rcfile 已包含 yy 函数，无需重复添加。"
 		fi

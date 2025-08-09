@@ -8,6 +8,11 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+if [ -n "$SUDO_USER" ] && [ -z "$TARGET_USER" ]; then
+    TARGET_USER="$SUDO_USER"
+    TARGET_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
+fi
+
 # 获取当前目录
 CURRENT_DIR=$(pwd)
 YAZI_DIR="$CURRENT_DIR/yazi-x86_64-unknown-linux-gnu"
@@ -32,7 +37,7 @@ if [ -L "/usr/local/bin/ya" ]; then
 fi
 
 # 删除配置文件夹
-CONFIG_DIR="$HOME/.config/yazi"
+CONFIG_DIR="$TARGET_HOME/.config/yazi"
 if [ -d "$CONFIG_DIR" ]; then
     rm -rf "$CONFIG_DIR"
     echo "已删除配置文件夹: $CONFIG_DIR"

@@ -2,8 +2,19 @@
 
 set -euo pipefail
 
+# 检查是否使用 sudo 启动脚本
+if [ "$EUID" -ne 0 ]; then
+    echo "请使用 sudo 启动此脚本。"
+    exit 1
+fi
+
+if [ -n "$SUDO_USER" ] && [ -z "$TARGET_USER" ]; then
+    TARGET_USER="$SUDO_USER"
+    TARGET_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
+fi
+
 # 目标配置路径
-CONFIG_DIR="${HOME}/.config/yazi"
+CONFIG_DIR="${TARGET_HOME}/.config/yazi"
 THEME_FILE="${CONFIG_DIR}/theme.toml"
 # 创建目录
 mkdir -p "${CONFIG_DIR}"
