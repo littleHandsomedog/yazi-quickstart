@@ -41,6 +41,23 @@ ya -V
 
 若命令能输出版本号，即已安装成功。
 
+### 创建 yazi 扩展配置文件（可选）
+使用附带的脚本一键创建 `~/.config/yazi/yazi.toml`：
+
+```bash
+chmod +x ./setup-yazi-config.sh
+bash ./setup-yazi-config.sh
+```
+
+写入内容如下：
+
+```
+# yazi.toml
+[mgr]
+show_hidden = true # 默认显示隐藏文件
+linemode = "size_and_mtime" # 显示文件大小和修改时间
+```
+
 ## 安装位置与目录结构
 - 解压目录：`./yazi-x86_64-unknown-linux-gnu/`
   - 可执行文件：`yazi`、`ya`
@@ -73,7 +90,9 @@ sudo bash ./setup-yazi.sh
 sudo rm -f /usr/local/bin/yazi /usr/local/bin/ya
 rm -rf ./yazi-x86_64-unknown-linux-gnu
 ```
+## 主题
 
+- [Yazi 主题](https://github.com/yazi-rs/flavors)
 
 ## 致谢
 - [Yazi 文件管理器](https://github.com/sxyazi/yazi)
