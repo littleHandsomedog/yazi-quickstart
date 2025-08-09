@@ -16,6 +16,8 @@ dark = "kanagawa"
 EOF
 
 echo "已创建yazi的主题配置文件"
-echo "默认主题为：kanagawa"
-echo "请使用ya pack -a dangooddd/kanagawa进行安装主题文件"
-echo "安装完成后，以应用主题"
+echo "默认主题为:kanagawa"
+
+ya pack -a dangooddd/kanagawa
+
+echo "kanagawa主题安装完成"

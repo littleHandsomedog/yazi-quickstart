@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# 检查是否使用 sudo 启动脚本
+if [ "$EUID" -ne 0 ]; then
+    echo "请使用 sudo 启动此脚本。"
+    exit 1
+fi
+
 # 获取脚本执行时所在的当前目录（即用户启动脚本的目录）
 CURRENT_DIR=$(pwd)
 
@@ -59,8 +65,8 @@ YA_PATH="$CURRENT_DIR/yazi-x86_64-unknown-linux-gnu/ya"
 chmod +x "$YAZI_PATH"
 chmod +x "$YA_PATH"
 
-ln -s "$YAZI_PATH" "/usr/local/bin"
-ln -s "$YA_PATH" "/usr/local/bin"
+ln -sf "$YAZI_PATH" "/usr/local/bin"
+ln -sf "$YA_PATH" "/usr/local/bin"
 
 # 询问是否删除 ZIP 压缩包
 echo -n "是否删除压缩包 $FILENAME？[y/n]: "
