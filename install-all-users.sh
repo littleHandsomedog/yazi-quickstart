@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # 检查是否使用 sudo 启动脚本
 if [ "$EUID" -ne 0 ]; then
     echo "请使用 sudo 启动此脚本。"
@@ -68,16 +70,15 @@ chmod +x "$YA_PATH"
 ln -sf "$YAZI_PATH" "/usr/local/bin"
 ln -sf "$YA_PATH" "/usr/local/bin"
 
-# 询问是否删除 ZIP 压缩包
-echo -n "是否删除压缩包 $FILENAME？[y/n]: "
-read -r answer
-if [[ "$answer" =~ ^[Yy]$ ]]; then
-    rm "$TARGET_FILE"
-    echo "已删除 $FILENAME"
+# 询问是否删除下载的压缩包
+if [ -f "$TARGET_FILE" ]; then
+    echo -n "是否删除下载的压缩包 $FILENAME？[y/n]: "
+    read -r answer
+    if [[ "$answer" =~ ^[Yy]$ ]]; then
+        rm "$TARGET_FILE"
+        echo "已删除压缩包 $FILENAME"
+    fi
 fi
 
 echo "所有操作完成！"
 echo "现在你可以尽情使用yazi了"
-
-
-

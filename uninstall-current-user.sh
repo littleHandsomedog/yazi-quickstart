@@ -1,18 +1,3 @@
-#!/bin/bash
-
-set -euo pipefail
-
-# 检查是否使用 sudo 启动脚本
-if [ "$EUID" -ne 0 ]; then
-    echo "请使用 sudo 启动此脚本。"
-    exit 1
-fi
-
-if [ -n "$SUDO_USER" ] && [ -z "$TARGET_USER" ]; then
-    TARGET_USER="$SUDO_USER"
-    TARGET_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
-fi
-
 # 获取当前目录
 CURRENT_DIR=$(pwd)
 YAZI_DIR="$CURRENT_DIR/yazi-x86_64-unknown-linux-gnu"
@@ -27,17 +12,18 @@ else
 fi
 
 # 删除软链接
-if [ -L "/usr/local/bin/yazi" ]; then
-    rm -f "/usr/local/bin/yazi"
-    echo "已删除软链接: /usr/local/bin/yazi"
+if [ -L "$HOME/.local/bin/yazi" ]; then
+    rm -f "$HOME/.local/bin/yazi"
+    echo "已删除软链接: $HOME/.local/bin/yazi"
 fi
-if [ -L "/usr/local/bin/ya" ]; then
-    rm -f "/usr/local/bin/ya"
-    echo "已删除软链接: /usr/local/bin/ya"
+if [ -L "$HOME/.local/bin/ya" ]; then
+    rm -f "$HOME/.local/bin/ya"
+    echo "已删除软链接: $HOME/.local/bin/ya"
 fi
 
 # 删除配置文件夹
-CONFIG_DIR="$TARGET_HOME/.config/yazi"
+CONFIG_DIR="$HOME/.config/yazi"
+
 if [ -d "$CONFIG_DIR" ]; then
     rm -rf "$CONFIG_DIR"
     echo "已删除配置文件夹: $CONFIG_DIR"
