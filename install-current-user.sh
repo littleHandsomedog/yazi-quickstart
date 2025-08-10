@@ -141,7 +141,7 @@ echo "设置yazi的默认主题为:kanagawa"
 
 echo "正在进行kanagawa主题安装..."
 
-ya pack -a dangooddd/kanagawa
+ya pkg add dangooddd/kanagawa
 
 echo "kanagawa主题安装完成"
 
@@ -160,7 +160,7 @@ add_func() {
             echo "$rcfile 已包含 yy 函数，跳过。"
         else
             printf '%s\n' "" "$YY_FUNC" "" >> "$rcfile"
-            echo "✅ 已添加 yy 函数到 $rcfile"
+            echo "已添加 yy 函数到 $rcfile"
         fi
 	fi
 }
