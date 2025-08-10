@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
-
 # 获取脚本执行时所在的当前目录（即用户启动脚本的目录）
 CURRENT_DIR=$(pwd)
 
@@ -64,7 +62,9 @@ chmod +x "$YA_PATH"
 mkdir -p "$HOME/.local/bin"
 # 创建软链接
 ln -sf "$YAZI_PATH" "$HOME/.local/bin/yazi"
+echo "已创建软链接：$HOME/.local/bin/yazi"
 ln -sf "$YA_PATH" "$HOME/.local/bin/ya"
+echo "已创建软链接：$HOME/.local/bin/ya"
 
 # 确保将 ~/.local/bin 加入 PATH（在常见 shell rc 中追加）
 PATH_LINE='export PATH="$HOME/.local/bin:$PATH"'
@@ -106,7 +106,7 @@ show_hidden = true # 默认显示隐藏文件
 linemode = "size_and_mtime" # 显示文件大小和修改时间
 EOF
 
-echo "已在${CONFIG_DIR}目录下创建${TOML_FILE}文件"
+echo "已在${CONFIG_DIR}目录下创建yazi.toml文件"
 
 # 写入yazi linemode配置文件（覆盖写入）
 cat >"${LUA_FILE}" <<'EOF'
@@ -126,7 +126,7 @@ function Linemode:size_and_mtime()
 end
 EOF
 
-echo "已在${CONFIG_DIR}目录下创建${LUA_FILE}文件"
+echo "已在${CONFIG_DIR}目录下创建init.lua文件"
 
 # 安装yazi的 kanagawa 主题
 cat >"${THEME_FILE}" <<'EOF'
@@ -135,7 +135,8 @@ cat >"${THEME_FILE}" <<'EOF'
 dark = "kanagawa"
 EOF
 
-echo "已在${CONFIG_DIR}目录下创建${THEME_FILE}文件"
+echo "已在${CONFIG_DIR}目录下创建theme.toml文件"
+
 echo "设置yazi的默认主题为:kanagawa"
 
 echo "正在进行kanagawa主题安装..."
@@ -153,7 +154,6 @@ add_func() {
 		if ! grep -q "function yy()" "$rcfile"; then
 			echo -e "\n$YY_FUNC\n" >>"$rcfile"
 			echo "已添加 yy 函数到 $rcfile"
-			echo "请重新启动终端或运行 'source $rcfile' 以使更改生效。"
 		else
 			echo "$rcfile 已包含 yy 函数，无需重复添加。"
 		fi
@@ -172,3 +172,5 @@ if [ -f "$TARGET_FILE" ]; then
         echo "已删除压缩包 $FILENAME"
     fi
 fi
+
+echo "安装完成！请重新启动终端或运行 'source ~/.bashrc' 以使更改生效。"
